@@ -1,8 +1,8 @@
 package Game;
 
-public class SuntaWitShowdown {
+public class MuntaPitShowdown {
     public static void main(String[] args) {
-        gameStarter obj =  new gameStarter();
+        GameStarter obj = new GameStarter();
         obj.GameRunner();
     }
 }
