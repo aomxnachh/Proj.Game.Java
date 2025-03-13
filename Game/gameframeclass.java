@@ -342,11 +342,11 @@ public class Gameframeclass implements ActionListener, ComponentListener {
                 updateMoveImages(userinput, computerChoice);
                 String result = determineWinner(userinput, computerChoice);
 
-                if (result.equals("Arj.Suntana")) {
+                if (result.equals("Arj.Muntana")) {
                     pitchayahp -= damageAmount;
                     pitchayaHPbar.setValue(pitchayahp);
                     updateWinnerLabel("ARJ.MUNTANA WINS ROUND");
-                } else if (result.equals("Dr.Witchaya")) {
+                } else if (result.equals("Dr.Pitchaya")) {
                     arjHP -= damageAmount;
                     arjHPBar.setValue(arjHP);
                     updateWinnerLabel("DR.PITCHAYA WINS ROUND");
@@ -476,10 +476,10 @@ public class Gameframeclass implements ActionListener, ComponentListener {
         if ((playerChoice.equals("ROCK") && computerChoice.equals("SCISSORS")) ||
                 (playerChoice.equals("PAPER") && computerChoice.equals("ROCK")) ||
                 (playerChoice.equals("SCISSORS") && computerChoice.equals("PAPER"))) {
-            return "Arj.Suntana";
+            return "Arj.Muntana";
         }
 
-        return "Dr.Witchaya";
+        return "Dr.Pitchaya";
     }
 
     private void showGameOver(String winner) {
