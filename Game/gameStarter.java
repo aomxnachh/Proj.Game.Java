@@ -78,12 +78,12 @@ public class GameStarter implements ActionListener, KeyListener {
         titlePanel.setOpaque(false);
 
         // Title
-        titleLabel = new JLabel("MUNTAWIT");
+        titleLabel = new JLabel("MUNTAPIT");
         titleLabel.setFont(new Font("Monospaced", Font.BOLD, 60));
         titleLabel.setForeground(ACCENT_COLOR);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPanel titleGlowPanel = createGlowEffect("MUNTAWIT", 60);
+        JPanel titleGlowPanel = createGlowEffect("MUNTAPIT", 60);
 
         JLabel subtitleLabel = new JLabel("SHOWDOWN");
         subtitleLabel.setFont(new Font("Monospaced", Font.BOLD, 40));
