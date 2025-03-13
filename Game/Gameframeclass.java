@@ -555,7 +555,7 @@ public class Gameframeclass implements ActionListener, ComponentListener {
         pitchayahp = 100;
         arjHPBar.setValue(arjHP);
         pitchayaHPbar.setValue(pitchayahp);
-        battleLabel.setText("SELECT COMBAT PROTOCOL");
+        battleLabel.setText("SELECT YOUR MOVES");
         updateWinnerLabel("BATTLE INITIATED");
         arjMoveLabel.setIcon(null);
         witchayaMoveLabel.setIcon(null);
