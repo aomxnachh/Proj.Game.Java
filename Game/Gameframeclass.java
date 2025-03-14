@@ -107,6 +107,26 @@ private void disposeBackgroundMusic() {
     }
 }
 
+private void playSoundEffect(String soundFile) {
+    try {
+        File soundPath = new File("Proj.Game.Java/sounds/" + soundFile);
+        
+        if (!soundPath.exists()) {
+            System.out.println("Sound effect file not found: " + soundPath.getAbsolutePath());
+            return;
+        }
+        
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundPath);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        clip.start();
+    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+        System.out.println("Error playing sound effect: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
+    
+
     // Image dimension
     private static final int IMAGE_WIDTH = 350;
     private static final int IMAGE_HEIGHT = 350;
@@ -410,12 +430,15 @@ private void disposeBackgroundMusic() {
                     pitchayahp -= damageAmount;
                     pitchayaHPbar.setValue(pitchayahp);
                     updateWinnerLabel("ARJ.MUNTANA WINS ROUND");
+                    playSoundEffect("click.wav");
                 } else if (result.equals("Dr.Pitchaya")) {
                     arjHP -= damageAmount;
                     arjHPBar.setValue(arjHP);
                     updateWinnerLabel("DR.PITCHAYA WINS ROUND");
+                    playSoundEffect("click.wav");
                 } else {
                     updateWinnerLabel("COMBAT DRAW");
+                    playSoundEffect("draw.wav");
                 }
 
                 battleLabel.setText(userinput + " vs " + computerChoice);
@@ -547,6 +570,7 @@ private void disposeBackgroundMusic() {
     }
 
     private void showGameOver(String winner) {
+        playSoundEffect("win.wav");
         JDialog dialog = new JDialog(frame, "BATTLE CONCLUSION", true);
         dialog.setSize(400, 200);
         dialog.setLocationRelativeTo(frame);
