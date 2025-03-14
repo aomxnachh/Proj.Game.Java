@@ -59,7 +59,7 @@ public class Gameframeclass implements ActionListener, ComponentListener {
 
     private void playBackgroundMusic() {
     try {
-        // กำหนดเส้นทางไฟล์เพลง (ต้องแน่ใจว่ามีไฟล์นี้อยู่ในตำแหน่งที่ถูกต้อง)
+        //path
         File musicFile = new File("Proj.Game.Java/sounds/background_music.wav");
         
         if (!musicFile.exists()) {
@@ -67,22 +67,18 @@ public class Gameframeclass implements ActionListener, ComponentListener {
             return;
         }
         
-        // เตรียมข้อมูลเสียง
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
         backgroundMusic = AudioSystem.getClip();
         backgroundMusic.open(audioStream);
         
-        // ตั้งค่าให้เล่นซ้ำอัตโนมัติเมื่อเพลงจบ
+        //loop
         backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
         
-        // ตั้งค่าระดับเสียง (ถ้าต้องการ)
         if (backgroundMusic.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
             volumeControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
-            // ตั้งค่าระดับเสียง (-20.0f คือเบากว่าปกติ, 0.0f คือปกติ, 6.0f คือดังขึ้น)
             volumeControl.setValue(-10.0f);
         }
         
-        // เริ่มเล่นเพลง
         backgroundMusic.start();
         isMusicPlaying = true;
         
@@ -92,7 +88,7 @@ public class Gameframeclass implements ActionListener, ComponentListener {
     }
 }
 
-// เพิ่มเมธอดสำหรับรีสตาร์ทเพลง
+// restart music method
 private void restartBackgroundMusic() {
     if (backgroundMusic != null) {
         backgroundMusic.stop();
@@ -102,7 +98,7 @@ private void restartBackgroundMusic() {
     }
 }
 
-// เพิ่มเมธอดสำหรับเลิกใช้ทรัพยากรเสียง
+// dispose music method
 private void disposeBackgroundMusic() {
     if (backgroundMusic != null) {
         backgroundMusic.stop();
