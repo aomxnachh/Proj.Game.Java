@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+import javax.sound.sampled.*;
 
 public class Gameframeclass implements ActionListener, ComponentListener {
     int Xlocation = 458;
@@ -49,6 +51,65 @@ public class Gameframeclass implements ActionListener, ComponentListener {
     private static final Color BUTTON_COLOR = new Color(30, 40, 80);
     private static final Color BUTTON_HOVER = new Color(50, 60, 120);
     private static final Color BUTTON_TEXT_COLOR = new Color(0, 255, 170);
+
+    //Audio
+    private Clip backgroundMusic;
+    private FloatControl volumeControl;
+    private boolean isMusicPlaying = false;
+
+    private void playBackgroundMusic() {
+    try {
+        // กำหนดเส้นทางไฟล์เพลง (ต้องแน่ใจว่ามีไฟล์นี้อยู่ในตำแหน่งที่ถูกต้อง)
+        File musicFile = new File("Proj.Game.Java/sounds/background_music.wav");
+        
+        if (!musicFile.exists()) {
+            System.out.println("Music file not found: " + musicFile.getAbsolutePath());
+            return;
+        }
+        
+        // เตรียมข้อมูลเสียง
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+        backgroundMusic = AudioSystem.getClip();
+        backgroundMusic.open(audioStream);
+        
+        // ตั้งค่าให้เล่นซ้ำอัตโนมัติเมื่อเพลงจบ
+        backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+        
+        // ตั้งค่าระดับเสียง (ถ้าต้องการ)
+        if (backgroundMusic.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+            volumeControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
+            // ตั้งค่าระดับเสียง (-20.0f คือเบากว่าปกติ, 0.0f คือปกติ, 6.0f คือดังขึ้น)
+            volumeControl.setValue(-10.0f);
+        }
+        
+        // เริ่มเล่นเพลง
+        backgroundMusic.start();
+        isMusicPlaying = true;
+        
+    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+        System.out.println("Error playing background music: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
+
+// เพิ่มเมธอดสำหรับรีสตาร์ทเพลง
+private void restartBackgroundMusic() {
+    if (backgroundMusic != null) {
+        backgroundMusic.stop();
+        backgroundMusic.setFramePosition(0);
+        backgroundMusic.start();
+        isMusicPlaying = true;
+    }
+}
+
+// เพิ่มเมธอดสำหรับเลิกใช้ทรัพยากรเสียง
+private void disposeBackgroundMusic() {
+    if (backgroundMusic != null) {
+        backgroundMusic.stop();
+        backgroundMusic.close();
+        isMusicPlaying = false;
+    }
+}
 
     // Image dimension
     private static final int IMAGE_WIDTH = 350;
@@ -236,7 +297,14 @@ public class Gameframeclass implements ActionListener, ComponentListener {
         mainPanel.add(controlPanel, BorderLayout.SOUTH);
 
         frame.add(mainPanel);
+        playBackgroundMusic();
         frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                disposeBackgroundMusic();
+            }
+        });
     }
 
     private JPanel createSubPanel() {
@@ -537,6 +605,7 @@ public class Gameframeclass implements ActionListener, ComponentListener {
 
         noButton.addActionListener(e -> {
             dialog.dispose();
+            disposeBackgroundMusic();
             System.exit(0);
         });
 
@@ -559,6 +628,7 @@ public class Gameframeclass implements ActionListener, ComponentListener {
         updateWinnerLabel("BATTLE INITIATED");
         arjMoveLabel.setIcon(null);
         witchayaMoveLabel.setIcon(null);
+        restartBackgroundMusic();
     }
 
     @Override
