@@ -52,80 +52,79 @@ public class Gameframeclass implements ActionListener, ComponentListener {
     private static final Color BUTTON_HOVER = new Color(50, 60, 120);
     private static final Color BUTTON_TEXT_COLOR = new Color(0, 255, 170);
 
-    //Audio
+    // Audio
     private Clip backgroundMusic;
     private FloatControl volumeControl;
     private boolean isMusicPlaying = false;
 
     private void playBackgroundMusic() {
-    try {
-        //path
-        File musicFile = new File("Proj.Game.Java/sounds/background_music.wav");
-        
-        if (!musicFile.exists()) {
-            System.out.println("Music file not found: " + musicFile.getAbsolutePath());
-            return;
-        }
-        
-        AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
-        backgroundMusic = AudioSystem.getClip();
-        backgroundMusic.open(audioStream);
-        
-        //loop
-        backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
-        
-        if (backgroundMusic.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
-            volumeControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
-            volumeControl.setValue(-10.0f);
-        }
-        
-        backgroundMusic.start();
-        isMusicPlaying = true;
-        
-    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-        System.out.println("Error playing background music: " + e.getMessage());
-        e.printStackTrace();
-    }
-}
+        try {
+            // path
+            File musicFile = new File("Proj.Game.Java/sounds/background_music.wav");
 
-// restart music method
-private void restartBackgroundMusic() {
-    if (backgroundMusic != null) {
-        backgroundMusic.stop();
-        backgroundMusic.setFramePosition(0);
-        backgroundMusic.start();
-        isMusicPlaying = true;
-    }
-}
+            if (!musicFile.exists()) {
+                System.out.println("Music file not found: " + musicFile.getAbsolutePath());
+                return;
+            }
 
-// dispose music method
-private void disposeBackgroundMusic() {
-    if (backgroundMusic != null) {
-        backgroundMusic.stop();
-        backgroundMusic.close();
-        isMusicPlaying = false;
-    }
-}
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+            backgroundMusic = AudioSystem.getClip();
+            backgroundMusic.open(audioStream);
 
-private void playSoundEffect(String soundFile) {
-    try {
-        File soundPath = new File("Proj.Game.Java/sounds/" + soundFile);
-        
-        if (!soundPath.exists()) {
-            System.out.println("Sound effect file not found: " + soundPath.getAbsolutePath());
-            return;
+            // loop
+            backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+
+            if (backgroundMusic.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+                volumeControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
+                volumeControl.setValue(-10.0f);
+            }
+
+            backgroundMusic.start();
+            isMusicPlaying = true;
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            System.out.println("Error playing background music: " + e.getMessage());
+            e.printStackTrace();
         }
-        
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundPath);
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioInputStream);
-        clip.start();
-    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-        System.out.println("Error playing sound effect: " + e.getMessage());
-        e.printStackTrace();
     }
-}
-    
+
+    // restart music method
+    private void restartBackgroundMusic() {
+        if (backgroundMusic != null) {
+            backgroundMusic.stop();
+            backgroundMusic.setFramePosition(0);
+            backgroundMusic.start();
+            isMusicPlaying = true;
+        }
+    }
+
+    // dispose music method
+    private void disposeBackgroundMusic() {
+        if (backgroundMusic != null) {
+            backgroundMusic.stop();
+            backgroundMusic.close();
+            isMusicPlaying = false;
+        }
+    }
+
+    private void playSoundEffect(String soundFile) {
+        try {
+            File soundPath = new File("Proj.Game.Java/sounds/" + soundFile);
+
+            if (!soundPath.exists()) {
+                System.out.println("Sound effect file not found: " + soundPath.getAbsolutePath());
+                return;
+            }
+
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundPath);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            System.out.println("Error playing sound effect: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     // Image dimension
     private static final int IMAGE_WIDTH = 350;
@@ -607,7 +606,9 @@ private void playSoundEffect(String soundFile) {
             }
         };
 
-        JLabel winnerLabel = new JLabel("<html><div style='text-align: center;'>" + winner + "</div></html>");//HTML for help
+        JLabel winnerLabel = new JLabel("<html><div style='text-align: center;'>" + winner + "</div></html>");// HTML
+                                                                                                              // for
+                                                                                                              // help
         winnerLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
         winnerLabel.setForeground(ACCENT_COLOR);
         winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
